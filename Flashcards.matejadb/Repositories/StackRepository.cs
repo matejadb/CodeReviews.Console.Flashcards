@@ -1,20 +1,16 @@
 ﻿using Flashcards.matejadb.Enums;
 using Flashcards.matejadb.Models;
 using Microsoft.Data.SqlClient;
+using Flashcards.matejadb.Config;
 
-namespace Flashcards.matejadb.Data;
+namespace Flashcards.matejadb.Repositories;
 
 public class StackRepository {
-    private readonly string _connectionString;
-
-    public StackRepository(string connectionString) {
-        _connectionString = connectionString;
-    }
 
     public List<Stack> GetAll() {
         var stacks = new List<Stack>();
 
-        using var connection = new SqlConnection(_connectionString);
+        using var connection = new SqlConnection(AppSettings.ConnectionString);
         connection.Open();
 
         using var command = new SqlCommand("SELECT Id, Name FROM Stacks ORDER BY Id ASC", connection);
@@ -35,7 +31,7 @@ public class StackRepository {
 
     public InsertStackResult InsertNewStack(string stackName) {
         try {
-            using var connection = new SqlConnection(_connectionString);
+            using var connection = new SqlConnection(AppSettings.ConnectionString);
             connection.Open();
 
             using var command = new SqlCommand("INSERT INTO Stacks (Name) VALUES (@name)", connection);
