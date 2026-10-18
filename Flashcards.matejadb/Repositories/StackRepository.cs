@@ -1,5 +1,4 @@
-﻿using Flashcards.matejadb.Enums;
-using Flashcards.matejadb.Models;
+﻿using Flashcards.matejadb.Dtos;
 using Microsoft.Data.SqlClient;
 using Flashcards.matejadb.Config;
 
@@ -7,8 +6,8 @@ namespace Flashcards.matejadb.Repositories;
 
 public class StackRepository {
 
-    public List<Stack> GetAll() {
-        var stacks = new List<Stack>();
+    public List<StackDTO> GetAll() {
+        var stacks = new List<StackDTO>();
 
         using var connection = new SqlConnection(AppSettings.ConnectionString);
         connection.Open();
@@ -17,7 +16,7 @@ public class StackRepository {
         using var reader = command.ExecuteReader();
 
         while (reader.Read()) {
-            var newStack = new Stack();
+            var newStack = new StackDTO();
 
             newStack.Id = reader.GetInt32(0);
             newStack.Name = reader.GetString(1);
@@ -29,7 +28,7 @@ public class StackRepository {
         return stacks;
     }
 
-    public InsertStackResult InsertNewStack(string stackName) {
+    public bool InsertNewStack(string stackName) {
         try {
             using var connection = new SqlConnection(AppSettings.ConnectionString);
             connection.Open();
@@ -39,9 +38,9 @@ public class StackRepository {
 
             command.ExecuteNonQuery();
         } catch (SqlException ex) when (ex.Number == 2627) {
-            return InsertStackResult.Duplicate;
+            return false;
         }
 
-        return InsertStackResult.Created;
+        return true;
     }
 }

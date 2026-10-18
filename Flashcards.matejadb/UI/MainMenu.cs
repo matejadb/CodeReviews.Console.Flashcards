@@ -2,7 +2,7 @@
 using Spectre.Console;
 
 namespace Flashcards.matejadb.UI; 
-public class MainMenu {
+internal class MainMenu {
 
     private readonly StackMenu stackMenu;
     public MainMenu(StackMenu stackMenu) {

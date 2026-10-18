@@ -1,13 +1,16 @@
-﻿using Flashcards.matejadb.UI.Enums;
+﻿using Flashcards.matejadb.Controllers;
+using Flashcards.matejadb.UI.Enums;
 using Spectre.Console;
 
 namespace Flashcards.matejadb.UI; 
-public class StackMenu {
+internal class StackMenu {
 
-    private readonly FlashcardMenu flashcardMenu;
+    private readonly FlashcardMenu _flashcardMenu;
+    private readonly StackController _stackController;
 
-    public StackMenu(FlashcardMenu flashcardMenu) {
-        this.flashcardMenu = flashcardMenu;
+    public StackMenu(FlashcardMenu flashcardMenu, StackController stackController) {
+        this._flashcardMenu = flashcardMenu;
+        this._stackController = stackController;
     }
 
     public void Run() {
@@ -23,13 +26,18 @@ public class StackMenu {
                 case StackMenuOptions.Back:
                     return;
                 case StackMenuOptions.AddStack:
+                    AddStack();
                     break;
                 case StackMenuOptions.RemoveStack:
                     break;
                 case StackMenuOptions.ManageFlashcards:
-                    flashcardMenu.Run();
+                    _flashcardMenu.Run();
                     break;
             }
         }
+    }
+
+    private void AddStack() {
+        _stackController.AddStack();
     }
 }

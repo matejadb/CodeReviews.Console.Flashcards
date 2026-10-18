@@ -3,7 +3,7 @@ using Flashcards.matejadb.UI.Enums;
 using Spectre.Console;
 
 namespace Flashcards.matejadb.UI; 
-public class FlashcardMenu {
+internal class FlashcardMenu {
 
     public FlashcardMenu() { }
 
